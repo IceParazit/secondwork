@@ -1,0 +1,35 @@
+*filter
+:INPUT DROP [113:14207]
+:FORWARD DROP [0:0]
+:OUTPUT DROP [13:2660]
+-A INPUT -i lo -j ACCEPT
+-A FORWARD -p icmp -m iprange --src-range 172.20.0.100-172.20.0.200 -j ACCEPT
+-A FORWARD -p udp -m iprange --src-range 172.20.0.100-172.20.0.200 -m udp --dport 53 -j ACCEPT
+-A FORWARD -p tcp -m iprange --src-range 172.20.0.100-172.20.0.200 -m tcp --dport 53 -j ACCEPT
+-A FORWARD -p tcp -m iprange --src-range 172.20.0.100-172.20.0.200 -m tcp --dport 80 -j ACCEPT
+-A FORWARD -p tcp -m iprange --src-range 172.20.0.100-172.20.0.200 -m tcp --dport 443 -j ACCEPT
+-A FORWARD -p tcp -m iprange --src-range 172.20.0.100-172.20.0.200 -m tcp --dport 22 -j ACCEPT
+-A FORWARD -p udp -m iprange --src-range 172.20.0.100-172.20.0.200 -m udp --dport 123 -j ACCEPT
+-A FORWARD -p icmp -m iprange --src-range 192.168.0.30-192.168.0.44 -j ACCEPT
+-A FORWARD -p udp -m iprange --src-range 192.168.0.30-192.168.0.44 -m udp --dport 53 -j ACCEPT
+-A FORWARD -p tcp -m iprange --src-range 192.168.0.30-192.168.0.44 -m tcp --dport 53 -j ACCEPT
+-A FORWARD -p tcp -m iprange --src-range 192.168.0.30-192.168.0.44 -m tcp --dport 80 -j ACCEPT
+-A FORWARD -p tcp -m iprange --src-range 192.168.0.30-192.168.0.44 -m tcp --dport 443 -j ACCEPT
+-A FORWARD -p tcp -m iprange --src-range 192.168.0.30-192.168.0.44 -m tcp --dport 22 -j ACCEPT
+-A FORWARD -p udp -m iprange --src-range 192.168.0.30-192.168.0.44 -m udp --dport 123 -j ACCEPT
+-A FORWARD -s 172.20.0.0/24 -d 192.168.0.0/24 -p tcp -m tcp --dport 445 -j ACCEPT
+-A FORWARD -s 192.168.0.0/24 -d 172.20.0.0/24 -p tcp -m tcp --dport 445 -j ACCEPT
+-A FORWARD -s 172.20.0.100/32 -d 192.168.0.0/24 -j ACCEPT
+-A FORWARD -j DROP
+-A OUTPUT -o lo -j ACCEPT
+COMMIT
+
+
+0.0.0.0         192.168.4.10    0.0.0.0         UG    100    0        0 enp0s3
+172.16.30.11    192.168.4.10    255.255.255.255 UGH   100    0        0 enp0s3
+172.16.32.11    192.168.4.10    255.255.255.255 UGH   100    0        0 enp0s3
+172.16.34.35    192.168.4.10    255.255.255.255 UGH   100    0        0 enp0s3
+172.20.0.0      0.0.0.0         255.255.255.0   U     0      0        0 eth0
+192.168.0.0     0.0.0.0         255.255.255.0   U     0      0        0 eth1
+192.168.4.0     0.0.0.0         255.255.252.0   U     100    0        0 enp0s3
+192.168.4.10    0.0.0.0         255.255.255.255 UH    100    0        0 enp0s3
